@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Taxually.TechnicalTest.Requests;
+﻿using Taxually.TechnicalTest.Requests;
 
 namespace Taxually.TechnicalTest.VatRegistrator
 {

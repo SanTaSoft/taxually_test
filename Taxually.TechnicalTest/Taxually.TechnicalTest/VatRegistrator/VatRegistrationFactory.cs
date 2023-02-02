@@ -13,7 +13,12 @@ namespace Taxually.TechnicalTest.VatRegistrator
 
         public IVatRegistrationWriter? GetOrCreateRegistrationWriter(string countryCode)
         {
-            return _vatRegistrationFuncs.TryGetValue(countryCode, out var vatRegistrationWriterFunc) ? vatRegistrationWriterFunc() : null;
+            if (string.IsNullOrWhiteSpace(countryCode))
+            {
+                return null;
+            }
+
+            return _vatRegistrationFuncs.TryGetValue(countryCode.ToUpper(), out var vatRegistrationWriterFunc) ? vatRegistrationWriterFunc() : null;
         }
     }
 }

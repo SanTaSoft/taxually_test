@@ -1,4 +1,5 @@
-﻿using Taxually.TechnicalTest.VatRegistrator.VatRegistrationWriters;
+﻿using Taxually.TechnicalTest.VatRegistrator.VatRegistrationDataFactories;
+using Taxually.TechnicalTest.VatRegistrator.VatRegistrationWriters;
 
 namespace Taxually.TechnicalTest.VatRegistrator
 {

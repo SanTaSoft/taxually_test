@@ -1,25 +1,26 @@
-﻿using System.Xml.Serialization;
-
-using Taxually.TechnicalTest.Requests;
+﻿using Taxually.TechnicalTest.Requests;
+using Taxually.TechnicalTest.VatRegistrator.VatRegistrationDataFactories;
 
 namespace Taxually.TechnicalTest.VatRegistrator.VatRegistrationWriters
 {
     public class XmlVatRegistrationWriter : IVatRegistrationWriter
     {
+        private readonly XmlVatRegistrationDataFactory _xmlVatRegistrationDataFactory;
+
+        public XmlVatRegistrationWriter()
+        {
+            _xmlVatRegistrationDataFactory = new XmlVatRegistrationDataFactory();
+        }
+
         public async Task<VatResult> WriteVatRegistration(VatRegistrationRequest request)
         {
             try
             {
-                using (var stringwriter = new StringWriter())
-                {
-                    var serializer = new XmlSerializer(typeof(VatRegistrationRequest));
-                    serializer.Serialize(stringwriter, request);
-                    var xml = stringwriter.ToString();
-                    var xmlQueueClient = new TaxuallyQueueClient();
-                    // Queue xml doc to be processed
-                    await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
-                    return VatResult.Success;
-                }
+                var xml = _xmlVatRegistrationDataFactory.CreateVatRegistrationData(request);
+                var xmlQueueClient = new TaxuallyQueueClient();
+                // Queue xml doc to be processed
+                await xmlQueueClient.EnqueueAsync("vat-registration-xml", xml);
+                return VatResult.Success;
             }
             catch (Exception)
             {
